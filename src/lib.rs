@@ -1,7 +1,7 @@
 use integrate::prelude::legendre_rule;
 use nannou::glam::Vec2;
 
-pub trait Trajectory: Send + Sync {
+pub trait Trajectory: Sync {
     fn position(&self, t: f32, theta: f32) -> Vec2;
     fn velocity(&self, t: f32, theta: f32) -> Vec2 {
         let h = 1e-4;
