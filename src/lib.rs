@@ -9,7 +9,7 @@ pub trait Trajectory: Send + Sync {
         let dy = (self.position(t + h, theta).y - self.position(t, theta).y) / h;
         Vec2::new(dx, dy)
     }
-    fn a(t: f32, theta: f32) -> f32;
+    fn a(&self, t: f32, theta: f32) -> f32;
 
     fn s(&self, t: f32, theta: f32) -> f32 {
         let ds = |u: f32| {
@@ -36,7 +36,7 @@ pub trait Trajectory: Send + Sync {
 pub trait WaveFunction: Trajectory {
     fn normal_offset(&self, t: f32, theta: f32, ta: f32) -> f32 {
         let current_s = self.s(t, theta);
-        Self::a(t, theta) * (current_s / ta).sin()
+        Self::a(self, t, theta) * (current_s / ta).sin()
     }
 
     fn offset(&self, t: f32, theta: f32, ta: f32) -> Vec2 {
