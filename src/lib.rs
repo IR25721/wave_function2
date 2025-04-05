@@ -3,7 +3,12 @@ use nannou::glam::Vec2;
 
 pub trait Trajectory: Send + Sync {
     fn position(&self, t: f32, theta: f32) -> Vec2;
-    fn velocity(&self, t: f32, theta: f32) -> Vec2;
+    fn velocity(&self, t: f32, theta: f32) -> Vec2 {
+        let h = 1e-4;
+        let dx = (self.position(t + h, theta).x - self.position(t, theta).x) / h;
+        let dy = (self.position(t + h, theta).y - self.position(t, theta).y) / h;
+        Vec2::new(dx, dy)
+    }
     fn a(t: f32, theta: f32) -> f32;
 
     fn s(&self, t: f32, theta: f32) -> f32 {
